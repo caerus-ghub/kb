@@ -9,11 +9,8 @@ function actionAdd() {
       category=${category#\.}
   esac
 
-  echo -n "title: ";
-  read title
-
-  echo -n "category: "
-  read -p "$category" category
+  read -p "title: " title
+  read -p "category: " -e -i "$category" -- category
 
   # create note
   addNote $title $category
