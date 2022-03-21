@@ -3,13 +3,14 @@ function actionAdd() {
   category=''
 
   case $1 in
-    "--category")
+    "--note")
       shift
+      title=${1##*/}
       category=${1%/*}
       category=${category#\.}
   esac
 
-  read -p "title: " title
+  read -p "title: " -e -i "$title" -- title
   read -p "category: " -e -i "$category" -- category
 
   # create note
