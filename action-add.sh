@@ -3,13 +3,14 @@ function actionAdd() {
   category=''
 
   case $1 in
-    "--category")
+    "--note")
       shift
+      title=${1##*/}
       category=${1%/*}
       category=${category#\.}
   esac
 
-  read -p "title: " title
+  read -p "title: " -e -i "$title" -- title
   read -p "category: " -e -i "$category" -- category
 
   # create note
@@ -17,20 +18,18 @@ function actionAdd() {
 }
 
 function addNote() {
-  file="${pathKb}${2}/${1}.md"
-
-  echo "--| file: ${file}" >> ~/Pets/kb/log.txt
+  note="${pathKb}/${2}/${1}.md"
 
   if [[ -n $1 && -n $2 ]]; then
 
     # create category if it doesn't exist
-    if [[ ! -f "${pathKb}${2}" ]]; then
-        mkdir -p "${pathKb}${2}"
+    if [[ ! -f "${pathKb}/${2}" ]]; then
+        mkdir -p "${pathKb}/${2}"
     fi
 
     # create note if it doesn't exist
-    if [[ ! -f "$file" ]]; then
-        touch "$file" && $EDITOR "$file"
+    if [[ ! -f "$note" ]]; then
+        touch "$note" && $EDITOR "$note"
     else
         echo "error: note already exists"
     fi
