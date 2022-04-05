@@ -1,0 +1,40 @@
+#!/bin/bash
+
+pathKb="${HOME}/.kb"
+pathRoot="$(dirname $0)"
+
+# import actions
+. ${pathRoot}/action-list.sh
+. ${pathRoot}/action-add.sh
+. ${pathRoot}/action-edit.sh
+. ${pathRoot}/action-remove.sh
+
+cd $pathKb
+
+# parse arguments
+case $1 in
+  "--action")
+    shift
+
+    case $1 in
+      "add")
+        shift
+        actionAdd $@
+      ;;
+      "edit")
+        shift
+        actionEdit $@
+      ;;
+      "remove")
+        shift
+        actionRemove $@
+      ;;
+      *)
+        echo "error: wrong action name"
+      ;;
+    esac
+    ;;
+  "")
+    actionList
+  ;;
+esac
